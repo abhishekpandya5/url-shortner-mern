@@ -3,6 +3,7 @@ import connectDB from "./src/config/mongo.config.js";
 import dotenv from "dotenv";
 import shortUrlRouter from "./src/routes/shortUrl.route.js";
 import { redirectFromShortUrl } from "./src/controller/shortUrl.controller.js";
+import { errorHandler } from "./src/utils/errorHandler.js";
 
 // Load env vars
 dotenv.config({ path: "./.env" });
@@ -24,6 +25,8 @@ app.use("/api/create", shortUrlRouter);
 app.get("/:id", redirectFromShortUrl);
 
 const PORT = process.env.PORT || 5000;
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
