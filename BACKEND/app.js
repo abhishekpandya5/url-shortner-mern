@@ -2,6 +2,7 @@ import express from "express";
 import connectDB from "./src/config/mongo.config.js";
 import dotenv from "dotenv";
 import shortUrlRouter from "./src/routes/shortUrl.route.js";
+import authRouter from "./src/routes/auth.route.js";
 import { redirectFromShortUrl } from "./src/controller/shortUrl.controller.js";
 import { errorHandler } from "./src/utils/errorHandler.js";
 import cors from "cors";
@@ -27,6 +28,9 @@ app.use("/api/create", shortUrlRouter);
 
 // GET - Redirection to full URL
 app.get("/:id", redirectFromShortUrl);
+
+// auth routes
+app.use("/api/auth", authRouter);
 
 const PORT = process.env.PORT || 5000;
 
