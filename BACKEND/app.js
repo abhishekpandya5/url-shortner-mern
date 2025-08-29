@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import shortUrlRouter from "./src/routes/shortUrl.route.js";
 import { redirectFromShortUrl } from "./src/controller/shortUrl.controller.js";
 import { errorHandler } from "./src/utils/errorHandler.js";
+import cors from "cors";
 
 // Load env vars
 dotenv.config({ path: "./.env" });
@@ -12,6 +13,9 @@ dotenv.config({ path: "./.env" });
 connectDB();
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Middleware to handle JSON and URL-encoded data
 // Body parser
