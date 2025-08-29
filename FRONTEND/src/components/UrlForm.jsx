@@ -30,7 +30,7 @@ const UrlForm = () => {
     try {
       await navigator.clipboard.writeText(shortUrl);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 1000);
     } catch {
       setError("Failed to copy to clipboard");
     }
@@ -134,7 +134,7 @@ const UrlForm = () => {
                 copied ? "bg-green-600" : "bg-blue-600"
               }`}
             >
-              Copy
+              {copied ? "Copied!" : "Copy"}
             </button>
           </div>
         </div>
