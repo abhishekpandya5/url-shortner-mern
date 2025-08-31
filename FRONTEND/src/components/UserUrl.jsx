@@ -15,6 +15,9 @@ const UserUrl = () => {
     staleTime: 0 // Consider data stale immediately so it refetches when invalidated
   });
   const [copiedId, setCopiedId] = useState(null);
+
+  // Get the app URL from environment variables
+  const APP_URL = import.meta.env.VITE_APP_URL || "http://localhost:5000";
   const handleCopy = (url, id) => {
     navigator.clipboard.writeText(url);
     setCopiedId(id);
@@ -88,12 +91,12 @@ const UserUrl = () => {
               >
                 Clicks
               </th>
-              <th
+              {/* <th
                 scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Actions
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -107,12 +110,14 @@ const UserUrl = () => {
                 <td className="px-6 py-4">
                   <div className="text-sm">
                     <a
-                      href={`http://localhost:5000/${url.short_url}`}
+                      href={`${APP_URL}/${url.short_url}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-900 hover:underline"
                     >
-                      {`localhost:5000/${url.short_url}`}
+                      {`${APP_URL.replace(/^https?:\/\//, "")}/${
+                        url.short_url
+                      }`}
                     </a>
                   </div>
                 </td>
@@ -123,11 +128,11 @@ const UserUrl = () => {
                     </span>
                   </div>
                 </td>
-                <td className="px-6 py-4 text-sm font-medium">
+                {/* <td className="px-6 py-4 text-sm font-medium">
                   <button
                     onClick={() =>
                       handleCopy(
-                        `http://localhost:5000/${url.short_url}`,
+                        `${APP_URL}/${url.short_url}`,
                         url._id
                       )
                     }
@@ -175,7 +180,7 @@ const UserUrl = () => {
                       </>
                     )}
                   </button>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
