@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 const UrlForm = () => {
   const [longUrl, setLongUrl] = useState("");
@@ -19,9 +19,12 @@ const UrlForm = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const response = await axios.post("http://localhost:5000/api/create", {
-      url: longUrl
-    });
+    const response = await axiosInstance.post(
+      "http://localhost:5000/api/create",
+      {
+        url: longUrl
+      }
+    );
     setShortUrl(response.data);
     setLoading(false);
   };

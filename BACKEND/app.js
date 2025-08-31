@@ -18,7 +18,12 @@ connectDB();
 const app = express();
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true
+  })
+);
 
 // Middleware to handle JSON and URL-encoded data
 // Body parser
