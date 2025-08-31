@@ -1,41 +1,77 @@
+import { Link, useNavigate, useLocation } from "@tanstack/react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/slice/authSlice";
+import { logoutUser } from "../api/user.api";
+
 const Navbar = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogout = async () => {
+    try {
+      console.log("NavBar: Starting logout process");
+      await logoutUser();
+      console.log("NavBar: API logout successful, dispatching Redux logout");
+      dispatch(logout());
+      console.log("NavBar: Redux logout dispatched");
+
+      // Only navigate if not already on homepage to avoid re-triggering auth check
+      if (location.pathname !== "/") {
+        console.log("NavBar: Navigating to home");
+        navigate({ to: "/" });
+      } else {
+        console.log("NavBar: Already on homepage, skipping navigation");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // Still dispatch logout to clear local state even if API call fails
+      console.log(
+        "NavBar: API logout failed, but still dispatching Redux logout"
+      );
+      dispatch(logout());
+
+      // Only navigate if not already on homepage
+      if (location.pathname !== "/") {
+        navigate({ to: "/" });
+      }
+    }
+  };
+
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-3">
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  />
-                </svg>
-              </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                URL Shortener
-              </h1>
-              <p className="text-xs text-gray-500 -mt-1">
-                Enterprise URL Shortener
-              </p>
-            </div>
+    <nav className="bg-white border border-b-black">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          {/* Left side - App Name */}
+          <div className="flex items-center">
+            <Link to="/" className="text-xl font-bold text-gray-800">
+              URL Shortener
+            </Link>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span>All systems operational</span>
-            </div>
+
+          {/* Right side - Auth buttons */}
+          <div className="flex items-center">
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-700">
+                  Welcome, {user?.name || "User"}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/auth"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>
