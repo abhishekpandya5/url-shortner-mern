@@ -1,5 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
-import Navbar from "./components/NavBar";
+import Navbar from "./components/NavBar.jsx";
 
 const RootLayout = () => {
   return (
