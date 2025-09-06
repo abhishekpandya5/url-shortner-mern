@@ -18,9 +18,14 @@ dotenv.config({ path: "./.env" });
 const app = express();
 
 // Enable CORS for all routes
+const allowedOrigins = [
+  "http://localhost:5173", // Development
+  process.env.FRONTEND_URL // Production
+].filter(Boolean); // Remove undefined values
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true
   })
 );
