@@ -1,10 +1,10 @@
 import { Outlet } from "@tanstack/react-router";
-import Navbar from "./components/NavBar.jsx";
+import NavBar from "./components/NavBar.jsx";
 
 const RootLayout = () => {
   return (
     <>
-      <Navbar />
+      <NavBar />
       <Outlet />
     </>
   );

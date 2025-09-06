@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/slice/authSlice";
 import { logoutUser } from "../api/user.api";
 
-const Navbar = () => {
+const NavBar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -79,4 +79,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavBar;
